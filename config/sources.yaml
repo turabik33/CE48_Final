@@ -1,0 +1,398 @@
+# ============================================================================
+# Civil Engineering + AI News Collection Pipeline Configuration
+# ============================================================================
+# This configuration defines all data sources for collecting ~700 articles
+# related to Civil Engineering and AI topics.
+#
+# Hard Rules:
+#   - No paywall bypass, no login, no captcha solving
+#   - Rate limit scraping: 1-3 seconds between requests
+#   - If a source fails, log and continue (no crash)
+#   - Deduplicate by canonical URL (fallback: title+date hash)
+# ============================================================================
+
+# Target total articles to collect
+TARGET_TOTAL: 700
+
+# Soft quotas (flexible based on source availability)
+QUOTAS:
+  RSS: 600      # ~60% from RSS feeds (increased for Google News)
+  API: 250      # ~25% from news APIs
+  SCRAPE: 150   # ~15% from web scraping
+
+# ============================================================================
+# RSS FEEDS
+# ============================================================================
+# Primary source for article discovery. These are public RSS/Atom feeds
+# from construction and engineering news outlets.
+
+RSS_FEEDS:
+  # The Construction Index (UK-based construction news)
+  - url: https://www.theconstructionindex.co.uk/feeds/all.xml
+    name: Construction Index - All
+    category: construction_news
+
+  - url: https://www.theconstructionindex.co.uk/feeds/uk.xml
+    name: Construction Index - UK
+    category: construction_news
+
+  - url: https://www.theconstructionindex.co.uk/feeds/international.xml
+    name: Construction Index - International
+    category: construction_news
+
+  - url: https://www.theconstructionindex.co.uk/feeds/plant.xml
+    name: Construction Index - Plant
+    category: equipment
+
+  - url: https://www.theconstructionindex.co.uk/feeds/products.xml
+    name: Construction Index - Products
+    category: products
+
+  # Construction Management (UK)
+  - url: https://constructionmanagement.co.uk/category/all-news/feed
+    name: Construction Management - All News
+    category: construction_news
+
+  - url: https://constructionmanagement.co.uk/category/all-news/news/feed
+    name: Construction Management - News
+    category: construction_news
+
+  - url: https://constructionmanagement.co.uk/category/features/technology/feed
+    name: Construction Management - Technology
+    category: technology
+
+  # Construction Equipment Guide
+  - url: https://feeds.feedburner.com/ceg
+    name: Construction Equipment Guide
+    category: equipment
+
+  - url: https://feeds.feedburner.com/ceg_auctions
+    name: CEG Auctions
+    category: equipment
+
+  # ENR (Engineering News-Record)
+  - url: https://www.enr.com/rss
+    name: ENR - Engineering News Record
+    category: engineering
+
+  # Architectural Record
+  - url: https://www.architecturalrecord.com/rss
+    name: Architectural Record
+    category: architecture
+
+  # ConstructConnect (Canada)
+  - url: https://canada.constructconnect.com/dcn/rss-feeds
+    name: ConstructConnect Canada
+    category: construction_news
+
+  # Construction Management RSS Hub
+  - url: https://constructionmanagement.co.uk/rss-feeds/
+    name: Construction Management RSS Hub
+    category: construction_news
+
+  # Construction Equipment Guide (alternate)
+  - url: https://www.constructionequipmentguide.com/rss
+    name: CEG Direct
+    category: equipment
+
+  # EIN News - Construction
+  - url: https://construction.einnews.com/all_rss
+    name: EIN Construction News
+    category: construction_news
+
+  # Google News RSS Feeds (Civil Engineering + AI topics)
+  - url: https://news.google.com/rss/search?q=civil+engineering+AI&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Civil Engineering AI
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=construction+technology&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Construction Technology
+    category: technology
+
+  - url: https://news.google.com/rss/search?q=smart+construction&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Smart Construction
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=infrastructure+artificial+intelligence&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Infrastructure AI
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=construction+robotics&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Construction Robotics
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=BIM+machine+learning&hl=en-US&gl=US&ceid=US:en
+    name: Google News - BIM ML
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=digital+twin+construction&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Digital Twin Construction
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=construction+automation&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Construction Automation
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=structural+engineering+AI&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Structural Engineering AI
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=3D+printing+construction&hl=en-US&gl=US&ceid=US:en
+    name: Google News - 3D Printing Construction
+    category: ai_construction
+
+  # Additional Google News RSS Feeds
+  - url: https://news.google.com/rss/search?q=construction+drone+inspection&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Construction Drone
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=AI+building+design&hl=en-US&gl=US&ceid=US:en
+    name: Google News - AI Building Design
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=predictive+maintenance+construction&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Predictive Maintenance Construction
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=IoT+construction+site&hl=en-US&gl=US&ceid=US:en
+    name: Google News - IoT Construction
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=machine+learning+infrastructure&hl=en-US&gl=US&ceid=US:en
+    name: Google News - ML Infrastructure
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=modular+construction+technology&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Modular Construction
+    category: technology
+
+  - url: https://news.google.com/rss/search?q=green+building+AI&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Green Building AI
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=construction+safety+AI&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Construction Safety AI
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=smart+city+infrastructure&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Smart City Infrastructure
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=AI+project+management+construction&hl=en-US&gl=US&ceid=US:en
+    name: Google News - AI Project Management
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=computer+vision+construction&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Computer Vision Construction
+    category: ai_construction
+
+  - url: https://news.google.com/rss/search?q=autonomous+construction+equipment&hl=en-US&gl=US&ceid=US:en
+    name: Google News - Autonomous Equipment
+    category: ai_construction
+
+# ============================================================================
+# SCRAPE SEEDS
+# ============================================================================
+# Starting URLs for web scraping. These are pages that link to multiple
+# articles. The scraper will extract article links and fetch full text.
+# Note: Respects robots.txt and rate limits (1-3s delay between requests).
+
+SCRAPE_SEEDS:
+  - url: https://www.constructiondive.com/
+    name: Construction Dive - Homepage
+    category: construction_news
+    max_depth: 1  # Only follow links one level deep
+
+  - url: https://www.constructiondive.com/news/the-top-construction-technology-news-of-2025/808077/
+    name: Construction Dive - Tech News 2025
+    category: technology
+    max_depth: 0  # Single article page
+
+  - url: https://www.constructionenquirer.com/category/news/
+    name: Construction Enquirer - News
+    category: construction_news
+    max_depth: 1
+
+  - url: https://www.constructionenquirer.com/category/projects/
+    name: Construction Enquirer - Projects
+    category: projects
+    max_depth: 1
+
+  - url: https://www.enr.com/topic/585-information-technology
+    name: ENR - Information Technology
+    category: technology
+    max_depth: 1
+
+# ============================================================================
+# API CONFIGURATION
+# ============================================================================
+# External news APIs for supplementary article discovery.
+# Each API requires its respective environment variable to be set.
+# If the key is missing, that API will be skipped gracefully.
+
+APIS:
+  # Primary API - GNews (Google News aggregator)
+  gnews:
+    enabled: true
+    env_key: GNEWS_API_KEY
+    base_url: https://gnews.io/api/v4
+    priority: 1  # Highest priority
+    rate_limit: 100  # requests per day (free tier)
+    search_queries:
+      - "civil engineering AI"
+      - "construction technology"
+      - "smart construction"
+      - "infrastructure AI"
+      - "building automation"
+      - "construction robotics"
+      - "BIM artificial intelligence"
+      - "structural engineering machine learning"
+
+  # Optional APIs (only used if keys exist)
+  gdelt:
+    enabled: true
+    env_key: GDELT_API_KEY
+    base_url: https://api.gdeltproject.org
+    priority: 2
+    rate_limit: 60
+    description: "Global Database of Events, Language, and Tone"
+
+  newsapi:
+    enabled: true
+    env_key: NEWSAPI_KEY
+    base_url: https://newsapi.org/v2
+    priority: 3
+    rate_limit: 100
+    description: "NewsAPI.org - News aggregation API"
+
+  guardian:
+    enabled: true
+    env_key: GUARDIAN_API_KEY
+    base_url: https://content.guardianapis.com
+    priority: 4
+    rate_limit: 5000  # per day
+    description: "The Guardian Open Platform"
+
+  mediastack:
+    enabled: true
+    env_key: MEDIASTACK_API_KEY
+    base_url: http://api.mediastack.com/v1
+    priority: 5
+    rate_limit: 500
+    description: "mediastack - Real-time news API"
+
+# ============================================================================
+# SCRAPING CONFIGURATION
+# ============================================================================
+SCRAPING:
+  # Rate limiting (seconds between requests)
+  min_delay: 1.0
+  max_delay: 3.0
+
+  # Request settings
+  timeout: 30  # seconds
+  max_retries: 3
+  retry_delay: 5  # seconds
+
+  # User agent for requests
+  user_agent: "CivilEngineeringAI-NewsBot/1.0 (Academic Research; +contact@example.edu)"
+
+  # Respect robots.txt
+  respect_robots_txt: true
+
+  # Content extraction settings
+  min_content_length: 200  # minimum characters for valid article
+  max_content_length: 50000  # maximum characters to store
+
+# ============================================================================
+# DEDUPLICATION CONFIGURATION
+# ============================================================================
+DEDUPLICATION:
+  # Primary: canonical URL normalization
+  primary_method: canonical_url
+
+  # Fallback: hash of title + publication date
+  fallback_method: title_date_hash
+
+  # URL normalization rules
+  url_normalization:
+    - remove_tracking_params: true  # utm_*, fbclid, etc.
+    - remove_trailing_slash: true
+    - lowercase_domain: true
+    - remove_www: true
+
+# ============================================================================
+# SEARCH KEYWORDS
+# ============================================================================
+# Keywords for filtering and relevance scoring
+
+KEYWORDS:
+  primary:
+    - civil engineering
+    - construction
+    - infrastructure
+    - structural engineering
+    - building
+    - architecture
+
+  ai_related:
+    - artificial intelligence
+    - machine learning
+    - deep learning
+    - AI
+    - ML
+    - automation
+    - robotics
+    - computer vision
+    - neural network
+    - predictive maintenance
+    - BIM
+    - digital twin
+
+  civil_engineering_specific:
+    - concrete
+    - steel structure
+    - bridge
+    - road construction
+    - highway
+    - tunnel
+    - dam
+    - foundation
+    - geotechnical
+    - earthquake engineering
+    - sustainable construction
+    - green building
+    - LEED
+    - modular construction
+    - prefabrication
+    - 3D printing construction
+    - drone inspection
+    - IoT sensors
+    - smart city
+
+# ============================================================================
+# OUTPUT CONFIGURATION
+# ============================================================================
+OUTPUT:
+  # Directory for storing collected data
+  data_dir: data/raw
+
+  # Database file for articles
+  database: data/articles.db
+
+  # Log file location
+  log_file: logs/collection.log
+
+  # Export formats
+  formats:
+    - json
+    - csv
+
+# ============================================================================
+# LLM GATING CONFIGURATION (for future use)
+# ============================================================================
+LLM_GATING:
+  enabled: false  # Will be configured in later tasks
+  model: null
+  relevance_threshold: 0.7
+  batch_size: 50
